@@ -1,0 +1,19 @@
+<div class="row">
+
+    <div class="col-xs-8 well">
+        <uib-alert type="danger" ng-hide="vmd.modalHidden" close="vmd.closeModal()">You can't drag files being N/A</uib-alert>
+        <div ng-click="vmd.addFile()">{{vmd.title}}</div>
+    </div>
+
+    <div class="col-xs-1" ng-click="vmd.removeFile()">
+        <a href="javascript:void(0)" ng-show="vmd.hasFiles()" ng-click="vmd.openFilesModal()">
+            <span class="glyphicon glyphicon-paperclip"></span> {{vmd.getNumberOfFiles()}}
+        </a>
+    </div>
+
+    <div class="col-xs-3">
+        <button ng-disabled="vmd.disabled" class="btn btn-default" ng-click="vmd.nextState()" ng-bind-html="vmd.icon"></button>
+    </div>
+
+</div>
+

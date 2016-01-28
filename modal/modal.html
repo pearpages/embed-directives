@@ -1,0 +1,24 @@
+<div>
+    <h4>{{vmd.title}}</h4>
+    <p>
+        <button class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span> Delete All</button>
+    </p>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Delete</th>
+                <th>Download</th>
+                <th>Open</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="file in vmd.files">
+                <td><a href="javascript:void(0)"><span class="glyphicon glyphicon-pencil"></span>  Lorem ipsum dolor sit amet.</a></td>
+                <td><a href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></span> </a></td>
+                <td><a href="javascript:void(0)"><span class="glyphicon glyphicon-download-alt"></span></a></td>
+                <td><a href="javascript:void(0)"><span class="glyphicon glyphicon-folder-open"></span></a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

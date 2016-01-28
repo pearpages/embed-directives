@@ -1,0 +1,17 @@
+<div class="panel panel-primary">
+    <div class="panel-heading" ng-click="vmd.hideBody()" data-toggle="tooltip" data-placement="left">
+        <span uib-tooltip="{{vmd.title}}">{{vmd.title}} {{vmd.folder}}</span>
+    </div>
+    <div class="panel-body" ng-hide="vmd.bodyHidden">
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <category title="{{vmd.config.uwDoc.description}}" default-values="vmd.config.uwDoc.data"></category>
+                <category title="{{vmd.config.policyDoc.description}}" default-values="vmd.config.policyDoc.data"></category>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <category title="{{vmd.config.facout.description}}" default-values="vmd.config.facout.data"></category>
+                <category title="{{vmd.config.crossSelling.description}}" default-values="vmd.config.crossSelling.data"></category>
+            </div>
+        </div>
+    </div>
+</div>
