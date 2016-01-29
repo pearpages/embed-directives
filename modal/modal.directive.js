@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module("mandatory")
-        .directive('manModal', [manModal]);
+        .directive('manModal', ['mockFiles',manModal]);
 
     function manModal() {
         return {
@@ -12,6 +12,8 @@
             controller: controller,
             scope: {
                 title: '@',
+                files: '=',
+                delete: '&'
             },
             //link: link,
             templateUrl: currentScriptPath.replace('modal.directive.js', 'modal.html'),
@@ -26,11 +28,53 @@
            });
         }
 */
-        function controller() {
+        function controller(mockFiles) {
             var vmd = this;
 
-            vmd.files = [1,2,3,4,5,6,7,8,9,10,11,12,13,14];
+            vmd.toggle = toggle;
+            vmd.deleteFile = deleteFile;
+            vmd.deleteAll = deleteAll;
+
+            activate();
+
+            function activate() {
+               // nothing
+            }
+
+            function deleteAll() {
+                vmd.files.length = 0;
+                vmd.delete();
+            }
             
+            function findFile(id,callback) {
+                for (var i = vmd.files.length - 1; i >= 0; i--) {
+                    var file = vmd.files[i];
+                    if (file.id === id) {
+                        callback(file,i);
+                    }
+                }
+            }
+
+            function deleteFile(id) {
+                findFile(id,function(file,index) {
+                    vmd.files.splice(index,1);
+                    vmd.delete();
+                });
+            }
+
+            function toggle(action,id,cancel) {
+                findFile(id,function(file) {
+                    if (action === 'view') {
+                        if (cancel !== 'cancel') {
+                            file.name = file.newValue;    
+                        }
+                        file.action = action;
+                    } else if (action === 'edit') {
+                        file.newValue = file.name;
+                        file.action = action;
+                    }    
+                });
+            }
         }
     }
 })((function currentScriptPath() {

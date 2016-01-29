@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module("mandatory")
-        .directive('file', ['$uibModal', file]);
+        .directive('file', ['$uibModal','mockFiles',file]);
 
-    function file($uibModal) {
+    function file($uibModal,mockFiles) {
         return {
             restrict: 'E',
             bindToController: true,
@@ -47,6 +47,8 @@
                         vm.ok = ok;
                         vm.cancel = cancel;
                         vm.title = vmd.title;
+                        vm.files = vmd.files;
+                        vm.delete = vmd.removeFile;
 
                         function ok() {
                             $uibModalInstance.close($scope.selected.item);
@@ -91,7 +93,10 @@
 
             function addFile() {
                 if (vmd.currentState !== 'na') {
-                    vmd.files.files++;
+                    if(vmd.files.length === undefined || vmd.files.length === 0){
+                        vmd.files = [];
+                    }
+                    vmd.files.push(mockFiles.mock(1)[0]);
                     setButtonIssued();
                 } else {
                     vmd.modalHidden = false;
@@ -99,14 +104,8 @@
             }
 
             function removeFile() {
-                if (vmd.currentState !== 'na') {
-                    if (vmd.files.files > 0) {
-                        vmd.files.files--;
-                    }
-
-                    if (vmd.files.files === 0 && vmd.currentState === 'issued') {
-                        changeState('pending');
-                    }
+                if (vmd.files.length === 0 && vmd.currentState === 'issued') {
+                    changeState('pending');
                 }
             }
 
@@ -115,7 +114,7 @@
             }
 
             function hasFiles() {
-                if (vmd.files.files > 0) {
+                if (vmd.files.length > 0) {
                     return true;
                 } else {
                     return false;
@@ -123,7 +122,7 @@
             }
 
             function getNumberOfFiles() {
-                return vmd.files.files;
+                return vmd.files.length;
             }
         }
     }

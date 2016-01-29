@@ -1,3 +1,7 @@
 <h4>Category Demo</h4>
 
-<category title="Category title" default-values="vm.data"></category>
+<ul>
+	<li ng-repeat="(key,value) in vm.data">{{key}}</li>	
+</ul>
+
+<category ng-repeat="(key,value) in vm.data" title="{{vm.data[key].description}}" default-values="vm.data[key].data"></category>
