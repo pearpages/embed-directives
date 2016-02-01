@@ -1,11 +1,12 @@
 var myModels = myModels || {};
 
-myModels.Button = function (id, description, icon, color) {
+myModels.Button = function (id, description, icon, color, nextState) {
     this.id = id;
     this.description = description;
     this.icon = icon;
     this.color = color || '';
-}
+    this.nextState = nextState || '';
+};
 
 myModels.Button.prototype.getStyle = function() {
     if (this.color !== '') {
@@ -15,9 +16,13 @@ myModels.Button.prototype.getStyle = function() {
     }
 };
 
+myModels.Button.prototype.nextState = function() {
+    return this.nextState;
+};
+
 myModels.Button.prototype.getClass = function() {
     return 'class="glyphicon glyphicon-' + this.icon + '"';
-}
+};
 
 myModels.Button.prototype.render = function() {
     if (this.icon === '') {
@@ -26,4 +31,4 @@ myModels.Button.prototype.render = function() {
         return '<span ' + this.getClass() + ' ' + this.getStyle() + '></span>';
     }
 
-}
+};

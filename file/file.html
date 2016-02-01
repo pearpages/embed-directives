@@ -9,6 +9,6 @@
         </a>
     </div>
     <div class="col-xs-3">
-        <button ng-disabled="vmd.disabled" class="btn btn-default" ng-click="vmd.nextState()" ng-bind-html="vmd.icon"></button>
+        <dropdown-button options="vmd.options" current="vmd.currentState"></dropdown-button>
     </div>
 </div>

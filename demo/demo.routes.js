@@ -31,6 +31,11 @@
                 templateUrl: '/demo/modal/demo.html',
                 controller: 'ModalDemoController',
                 controllerAs: 'vm'
+            }).state('dropdown-button', {
+                url: '/dropdown-button',
+                templateUrl: '/demo/dropdown-button/demo.html',
+                controller: 'DropdownButtonDemoController',
+                controllerAs: 'vm'
             });
 
         $urlRouterProvider.otherwise('/');

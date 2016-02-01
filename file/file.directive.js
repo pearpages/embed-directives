@@ -24,10 +24,8 @@
 
             var vmd = this;
             vmd.currentState;
-            vmd.icon;
-            vmd.disabled;
+            vmd.options;
             vmd.modalHidden;
-            vmd.nextState = nextState;
             vmd.hasFiles = hasFiles;
             vmd.getNumberOfFiles = getNumberOfFiles;
             vmd.addFile = addFile;
@@ -63,14 +61,14 @@
             }
 
             function activate() {
+                vmd.options = fileConfig.states;
                 vmd.modalHidden = true;
-                vmd.disabled = false;
                 initButton();
             }
 
             function initButton() {
                 if (vmd.files.files > 0) {
-                    setButtonIssued();
+                    changeState('issued');
                 } else {
                     //default value
                     changeState(vmd.defaultValue);
@@ -83,12 +81,6 @@
 
             function changeState(state) {
                 vmd.currentState = state;
-                vmd.icon = $sce.trustAsHtml(fileConfig.states[state].render());
-            }
-
-            function setButtonIssued() {
-                changeState('issued');
-                vmd.disabled = true;
             }
 
             function addFile() {
@@ -97,7 +89,7 @@
                         vmd.files = [];
                     }
                     vmd.files.push(mockFiles.mock(1)[0]);
-                    setButtonIssued();
+                    changeState('issued');
                 } else {
                     vmd.modalHidden = false;
                 }
@@ -107,10 +99,6 @@
                 if (vmd.files.length === 0 && vmd.currentState === 'issued') {
                     changeState('pending');
                 }
-            }
-
-            function nextState() {
-                changeState(fileConfig.states.nextState(vmd.currentState));
             }
 
             function hasFiles() {

@@ -1,0 +1,8 @@
+ul.dropdown-menu.efolder{
+	min-width: 52px;
+}
+ul.dropdown-menu.efolder li a{
+	cursor: pointer;
+	padding: 8px;
+	text-align: center;
+}
