@@ -1,8 +1,10 @@
-(function(currentScriptPath) {
+(function() {
     'use strict';
 
     angular.module("mandatory")
-        .directive('dropdownButton', ['$sce',dropdownButton]);
+        .directive('dropdownButton', dropdownButton);
+
+    dropdownButton.$inject = ['$sce'];
 
     function dropdownButton($sce) {
         return {
@@ -12,12 +14,22 @@
             controller: controller,
             scope: {
                 options: '=',
-                current: '='
+                current: '=',
+                onMyChange: '&'
             },
-            templateUrl: currentScriptPath.replace('dropdown-button.directive.js', 'dropdown-button.html'),
+            template: ['<div class="btn-group" uib-dropdown is-open="status.isopen">',
+                '<button id="single-button" type="button" class="btn btn-default" uib-dropdown-toggle ng-disabled="disabled">',
+                '<span ng-bind-html="vmd.render(vmd.options[vmd.current].render())"></span>',
+                '<span class="caret"></span>',
+                '</button>',
+                '<ul uib-dropdown-menu role="menu" aria-labelledby="single-button" class="efolder">',
+                '<li ng-repeat="(key,value) in vmd.options" role="menuitem">',
+                '<a ng-click="vmd.changeValue(key)" herf="javascript:void(0)" ng-bind-html="vmd.render(value.render())"></a>',
+                '</li>',
+                '</ul>',
+                '</div>'
+            ].join('')
         };
-
-        //call ang-link if needed
 
         function controller() {
 
@@ -30,12 +42,10 @@
             }
 
             function changeValue(value) {
-                vmd.current = value;
+                vmd.onMyChange({
+                    value: value
+                });
             }
         }
     }
-})((function currentScriptPath() {
-    var scripts = document.getElementsByTagName("script");
-    var currentScriptPath = scripts[scripts.length - 1].src;
-    return currentScriptPath;
-})());
+})();

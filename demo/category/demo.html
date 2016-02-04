@@ -1,7 +1,13 @@
 <h4>Category Demo</h4>
 
 <ul>
-	<li ng-repeat="(key,value) in vm.data">{{key}}</li>	
+	<li ng-repeat="(key,value) in vm.defaultvalues">{{key}}</li>	
 </ul>
 
-<category ng-repeat="(key,value) in vm.data" title="{{vm.data[key].description}}" default-values="vm.data[key].data"></category>
+<category ng-repeat="(key,value) in vm.defaultvalues" title="{{vm.defaultvalues[key].description}}" default-values="vm.defaultvalues[key].data" files="vm.files[key]"></category>
+
+<h5>Data</h5>
+
+<pre>
+{{vm.showNice(vm.files)}}
+</pre>

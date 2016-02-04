@@ -15,7 +15,9 @@
         <tbody>
             <tr ng-repeat="file in vmd.files">
                 <td>
-                    <a ng-click="vmd.toggle('edit',file.id)" ng-show="file.action === 'view'" href="javascript:void(0)"><span class="glyphicon glyphicon-pencil"></span>  {{file.name}}</a>
+                    <a ng-click="vmd.toggle('edit',file.id)" ng-show="file.action === 'view'" href="javascript:void(0)">
+                        <span class="glyphicon glyphicon-pencil"></span>  {{file.name}}
+                    </a>
                     <div ng-show="file.action === 'edit'">
                         <input ng-model="file.newValue" />
                         <button ng-click="vmd.toggle('view',file.id)">Save</button>
@@ -26,11 +28,9 @@
                 <td><a href="javascript:void(0)"><span class="glyphicon glyphicon-download-alt"></span></a></td>
                 <td><a href="javascript:void(0)"><span class="glyphicon glyphicon-folder-open"></span></a></td>
             </tr>
-
             <tr ng-show="vmd.files === null || vmd.files.length === 0">
                 <td colspan="4">No files</td>
             </tr>
-
         </tbody>
     </table>
 </div>

@@ -1,16 +1,28 @@
-<form>
-    <select ng-model="vm.folder.lob">
+<h4>Mandatory Panel</h4>
+
+<form class="well">
+    <label>LOB
+    <select ng-model="vm.lob">
         <option value="KR">KR/CGY/DISAB</option>
         <option value="TRI">TRI</option>
         <option value="DO">All LOB</option>
     </select>
-    <select ng-model="vm.folder.type">
+    </label>
+    <label>Type
+    <select ng-model="vm.type">
         <option value="None">None</option>
         <option value="Fac out">Fac out</option>
         <option value="SME Facilities">SME Facilities</option>
         <option value="Local Policies">Local Policies</option>
     </select>
+    </label>
     <button ng-click="vm.click()">Submit</button>
 </form>
 
-<mandatory folder="vm.realFolder" title="Mandatory"></mandatory>
+<mandatory folder="vm.folder" default-values="vm.config" title="Mandatory"></mandatory>
+
+<h5>Default Values</h5>
+
+<pre>
+    {{vm.prettify(vm.config)}}
+</pre>

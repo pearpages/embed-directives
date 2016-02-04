@@ -1,8 +1,8 @@
-(function(currentScriptPath) {
+(function() {
     'use strict';
 
     angular.module("mandatory")
-        .directive('mandatory', [mandatory]);
+        .directive('mandatory', mandatory);
 
     function mandatory() {
         return {
@@ -12,22 +12,29 @@
             controller: controller,
             scope: {
                 title: '@',
-                folder: '='
+                folder: '=',
+                defaultValues: '='
             },
-            //link: link,
-            templateUrl: currentScriptPath.replace('mandatory.directive.js', 'mandatory.html'),
+            template: ['<div class="panel panel-primary">',
+    '<div class="panel-heading" ng-click="vmd.hideBody()" data-toggle="tooltip" data-placement="left">',
+        '<span uib-tooltip="{{vmd.title}}">{{vmd.title}}</span>',
+    '</div>',
+    '<div class="panel-body" ng-hide="vmd.bodyHidden">',
+        '<div class="row">',
+            '<div class="col-md-6 col-sm-6">',
+                '<category title="{{vmd.defaultValues.uwDoc.description}}" files="vmd.folder.files[\'uwDoc\']" default-values="vmd.defaultValues.uwDoc.data"></category>',
+                '<category title="{{vmd.defaultValues.facout.description}}" files="vmd.folder.files[\'facout\']" default-values="vmd.defaultValues.facout.data"></category>',
+            '</div>',
+            '<div class="col-md-6 col-sm-6">',
+                '<category title="{{vmd.defaultValues.policyDoc.description}}" files="vmd.folder.files[\'policyDoc\']" default-values="vmd.defaultValues.policyDoc.data"></category>',
+                '<category title="{{vmd.defaultValues.crossSelling.description}}" files="vmd.folder.files[\'crossSelling\']" default-values="vmd.defaultValues.crossSelling.data"></category>',
+            '</div>',
+        '</div>',
+    '</div>',
+'</div>'].join('')
         };
 
-/*
-        function link(scope, element, attrs, ngModel) {
-           scope.$watch(function () {
-                ngModel.config = ngModel.getConfig(ngModel.folder.lob,ngModel.folder.type);
-           }, function(newValue) {
-                // ...
-           });
-        }
-*/
-        function controller(mandatoryConfig) {
+        function controller() {
             var vmd = this;
 
             vmd.bodyHidden;
@@ -37,7 +44,6 @@
 
             function activate() {
                 vmd.bodyHidden = false;
-                vmd.config = mandatoryConfig.getConfig('TRI','whatever');
             }
 
             function hideBody() {
@@ -45,8 +51,4 @@
             }
         }
     }
-})((function currentScriptPath() {
-        var scripts = document.getElementsByTagName("script");
-        var currentScriptPath = scripts[scripts.length - 1].src;
-        return currentScriptPath;
-    })());
+})();

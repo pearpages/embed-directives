@@ -10,7 +10,7 @@
         $stateProvider
             .state('home', {
                 url: '/',
-                template: '<p>Just pick one of the links above.</p>',
+                template: '<p>Just pick one of the links above.</p>'
             }).state('file', {
                 url: '/file',
                 templateUrl: '/demo/file/demo.html',
@@ -22,7 +22,7 @@
                 controller: 'CategoryDemoController',
                 controllerAs: 'vm'
             }).state('mandatory', {
-                url: '/mandatory',
+                url: '/mandatory/:lob/:type',
                 templateUrl: '/demo/mandatory/demo.html',
                 controller: 'MandatoryDemoController',
                 controllerAs: 'vm'
@@ -35,6 +35,11 @@
                 url: '/dropdown-button',
                 templateUrl: '/demo/dropdown-button/demo.html',
                 controller: 'DropdownButtonDemoController',
+                controllerAs: 'vm'
+            }).state('modal-window', {
+                url: '/modal-window',
+                templateUrl: '/demo/modalWindow/demo.html',
+                controller: 'ModalWindowDemoController',
                 controllerAs: 'vm'
             });
 

@@ -1,8 +1,8 @@
-(function(currentScriptPath) {
+(function() {
     'use strict';
 
     angular.module("mandatory")
-        .directive('manModal', ['mockFiles',manModal]);
+        .directive('manModal', manModal);
 
     function manModal() {
         return {
@@ -15,20 +15,45 @@
                 files: '=',
                 delete: '&'
             },
-            //link: link,
-            templateUrl: currentScriptPath.replace('modal.directive.js', 'modal.html'),
+            template: ['<div>',
+    '<h4>{{vmd.title}}</h4>',
+    '<p>',
+        '<button class="btn btn-danger btn-sm" ng-click="vmd.deleteAll()"><span class="glyphicon glyphicon-trash"></span> Delete All</button>',
+    '</p>',
+    '<table class="table table-striped table-bordered">',
+        '<thead>',
+            '<tr>',
+                '<th>Name</th>',
+                '<th>Delete</th>',
+                '<th>Download</th>',
+                '<th>Open</th>',
+            '</tr>',
+        '</thead>',
+        '<tbody>',
+            '<tr ng-repeat="file in vmd.files">',
+                '<td>',
+                    '<a ng-click="vmd.toggle(\'edit\',file.id)" ng-show="file.action === \'view\'" href="javascript:void(0)">',
+                        '<span class="glyphicon glyphicon-pencil"></span>  {{file.name}}',
+                    '</a>',
+                    '<div ng-show="file.action === \'edit\'">',
+                        '<input ng-model="file.newValue" />',
+                        '<button ng-click="vmd.toggle(\'view\',file.id)">Save</button>',
+                        '<button ng-click="vmd.toggle(\'view\',file.id,\'cancel\')">Cancel</button>',
+                    '</div>',
+                '</td>',
+                '<td><a href="javascript:void(0)" ng-click="vmd.deleteFile(file.id)"><span class="glyphicon glyphicon-remove"></span> </a></td>',
+                '<td><a href="javascript:void(0)"><span class="glyphicon glyphicon-download-alt"></span></a></td>',
+                '<td><a href="javascript:void(0)"><span class="glyphicon glyphicon-folder-open"></span></a></td>',
+            '</tr>',
+            '<tr ng-show="vmd.files === null || vmd.files.length === 0">',
+                '<td colspan="4">No files</td>',
+            '</tr>',
+        '</tbody>',
+    '</table>',
+'</div>'].join('')
         };
 
-/*
-        function link(scope, element, attrs, ngModel) {
-           scope.$watch(function () {
-                ngModel.config = ngModel.getConfig(ngModel.folder.lob,ngModel.folder.type);
-           }, function(newValue) {
-                // ...
-           });
-        }
-*/
-        function controller(mockFiles) {
+        function controller() {
             var vmd = this;
 
             vmd.toggle = toggle;
@@ -77,8 +102,4 @@
             }
         }
     }
-})((function currentScriptPath() {
-        var scripts = document.getElementsByTagName("script");
-        var currentScriptPath = scripts[scripts.length - 1].src;
-        return currentScriptPath;
-    })());
+})();

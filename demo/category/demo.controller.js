@@ -2,34 +2,35 @@
     'use strict';
 
     angular.module("demo")
-        .controller('CategoryDemoController', [CategoryDemoController]);
+        .controller('CategoryDemoController', CategoryDemoController);
 
-    function CategoryDemoController() {
+    CategoryDemoController.$inject = ['mandatoryConfig'];
+
+    function CategoryDemoController(mandatoryConfig) {
         var vm = this;
 
-        vm.data = getDefaultValues('KR','None');
+        vm.defaultvalues;
+        vm.files;
+        vm.showNice = showNice;
 
-        function getDefaultValues(lob, type) {
+        activate();
 
-            if (['KR', 'CGY', 'DISAB'].indexOf(lob) >= 0) {
-                if (type === 'None') {
-                    return new myModels.Matrix('pending', 'na', 'pending', 'pending', 'pending', 'pending', 'na', 'na', 'pending', 'pending', 'na', 'pending', 'na', 'pending', 'pending', 'na', 'na', 'na', 'na', 'na');
-                } else if (type === 'Fac out') {
-                    return new myModels.Matrix('pending', 'na', 'pending', 'pending', 'pending', 'pending', 'na', 'na', 'pending', 'pending', 'na', 'pending', 'na', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending');
-                }
-            } else if (lob === 'TRI') {
-                return new myModels.Matrix('na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na');
-            } else {
-                if (type === 'None') {
-                    return new myModels.Matrix('pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'na', 'na', 'na', 'na', 'na', 'na', 'na');
-                } else if (type === 'Fac out') {
-                    return new myModels.Matrix('pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'na', 'na', 'pending', 'pending', 'pending', 'pending', 'pending');
-                } else if (type === 'SME Facilities') {
-                    return new myModels.Matrix('pending', 'na', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'pending', 'na', 'na', 'na', 'na', 'na', 'na', 'na');
-                } else if (type === 'Local Policies') {
-                    return new myModels.Matrix('pending', 'na', 'pending', 'na', 'pending', 'pending', 'na', 'na', 'pending', 'pending', 'pending', 'pending', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na');
+        function activate() {
+
+            vm.defaultvalues = mandatoryConfig.getConfig('KR','None');
+
+            vm.files = {};
+            for (var type in vm.defaultvalues) {
+                vm.files[type] = {};
+                for (var name in vm.defaultvalues[type]['data']) {
+                    vm.files[type][name] = [];
                 }
             }
-        };
+
+        }
+
+        function showNice(value) {
+            return angular.toJson(value,true);
+        }
     }
 })();

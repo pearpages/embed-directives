@@ -1,31 +1,27 @@
-(function(currentScriptPath) {
+(function() {
     'use strict';
 
     angular.module("mandatory")
-        .directive('category', [category]);
+        .directive('category', category);
 
     function category() {
         return {
             restrict: 'E',
             bindToController: true,
             controllerAs: 'vmd',
-            controller: controller,
+            controller: function () {},
             scope: {
                 title: '@',
-                defaultValues: '='
+                defaultValues: '=',
+                files: '='
             },
-            templateUrl: currentScriptPath.replace('category.directive.js', 'category.html'),
+            template: ['<div class="well">',
+                            '<h4>{{vmd.title}}</h4>',
+                            '<div ng-repeat="(key,default) in vmd.defaultValues">',
+                                '<file title="{{default.description}}" default-value="{{default.value}}" files="vmd.files[key]"></file>',
+                            '</div>',
+                        '</div>'].join('')
         };
 
-        //call ang-link if needed
-
-        function controller() {
-            var vmd = this;
-
-        }
     }
-})((function currentScriptPath() {
-        var scripts = document.getElementsByTagName("script");
-        var currentScriptPath = scripts[scripts.length - 1].src;
-        return currentScriptPath;
-    })());
+})();

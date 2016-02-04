@@ -2,9 +2,11 @@
 	'use strict';
 
 	angular.module("mandatory")
-	.factory('mockFiles',[mockFiles]);
+	.factory('mockFiles', mockFiles);
 
-	function mockFiles() {
+	mockFiles.$inject = ['File'];
+
+	function mockFiles(File) {
 		
 		return {
 			mock: mock
@@ -14,7 +16,7 @@
 			var res = [];
 			while (howMany > 0) {
 				var id = Math.round((Math.random() * 1000));
-				res.push(new myModels.File(id,id+' Lorem ipsum dolor sit amet.'));
+				res.push(new File(id,id+' Lorem ipsum dolor sit amet.'));
 				howMany--;
 			}
 			return res;

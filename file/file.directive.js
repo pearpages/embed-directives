@@ -1,10 +1,12 @@
-(function(currentScriptPath) {
+(function() {
     'use strict';
 
     angular.module("mandatory")
-        .directive('file', ['$uibModal','mockFiles',file]);
+        .directive('file',file);
 
-    function file($uibModal,mockFiles) {
+    file.$inject =  ['modalWindow','mockFiles','fileConfig'];
+
+    function file(modalWindow,mockFiles,fileConfig) {
         return {
             restrict: 'E',
             bindToController: true,
@@ -15,12 +17,23 @@
                 defaultValue: '@',
                 files: '='
             },
-            templateUrl: currentScriptPath.replace('file.directive.js', 'file.html'),
+            template: ['<div class="row">',
+    '<div class="col-xs-8 well">',
+        '<uib-alert type="danger" ng-hide="vmd.modalHidden" close="vmd.closeModal()">You cannot drag files being N/A</uib-alert>',
+        '<div ng-click="vmd.addFile()">{{vmd.title}}</div>',
+    '</div>',
+    '<div class="col-xs-1">',
+        '<a href="javascript:void(0)" ng-show="vmd.hasFiles()" ng-click="vmd.openFilesModal()">',
+            '<span class="glyphicon glyphicon-paperclip"></span> {{vmd.getNumberOfFiles()}}',
+        '</a>',
+    '</div>',
+    '<div class="col-xs-3">',
+        '<dropdown-button options="vmd.options" current="vmd.currentState" on-my-change="vmd.changeState(value)"></dropdown-button>',
+    '</div>',
+'</div>'].join('')
         };
 
-        //call ang-link if needed
-
-        function controller(fileConfig, $sce) {
+        function controller(modalWindow,mockFiles,fileConfig) {
 
             var vmd = this;
             vmd.currentState;
@@ -32,36 +45,16 @@
             vmd.removeFile = removeFile;
             vmd.closeModal = closeModal;
             vmd.openFilesModal = openFilesModal;
+            vmd.changeState = changeState;
 
             activate();
 
             function openFilesModal() {
-                var modalInstance = $uibModal.open({
-                    animation: true,
-                    templateUrl: currentScriptPath.replace('file.directive.js', 'modal.html'),
-                    controller: function($uibModalInstance) {
-                        var vm = this;
-
-                        vm.ok = ok;
-                        vm.cancel = cancel;
-                        vm.title = vmd.title;
-                        vm.files = vmd.files;
-                        vm.delete = vmd.removeFile;
-
-                        function ok() {
-                            $uibModalInstance.close($scope.selected.item);
-                        };
-
-                        function cancel() {
-                            $uibModalInstance.dismiss('cancel');
-                        };
-                    },
-                    controllerAs: 'vm'
-                });
+                modalWindow.open(vmd.title,vmd.files,vmd.removeFile);
             }
 
             function activate() {
-                vmd.options = fileConfig.states;
+                vmd.options = fileConfig.getStates();
                 vmd.modalHidden = true;
                 initButton();
             }
@@ -80,12 +73,20 @@
             }
 
             function changeState(state) {
-                vmd.currentState = state;
+                if(hasFiles()){
+                    if(state === 'na'){
+                        alert('There are already files!');
+                    } else {
+                        vmd.currentState = state;
+                    }
+                } else {
+                    vmd.currentState = state;
+                }
             }
 
             function addFile() {
                 if (vmd.currentState !== 'na') {
-                    if(vmd.files.length === undefined || vmd.files.length === 0){
+                    if(vmd.files.length === angular.isUndefined() || vmd.files.length === 0){
                         vmd.files = [];
                     }
                     vmd.files.push(mockFiles.mock(1)[0]);
@@ -114,8 +115,4 @@
             }
         }
     }
-})((function currentScriptPath() {
-    var scripts = document.getElementsByTagName("script");
-    var currentScriptPath = scripts[scripts.length - 1].src;
-    return currentScriptPath;
-})());
+})();

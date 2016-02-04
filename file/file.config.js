@@ -2,15 +2,17 @@
 	'use strict';
 
 	angular.module("mandatory")
-	.provider('fileConfig',[fileConfig]);
+	.provider('fileConfig',fileConfig);
 
-	function fileConfig() {
+    fileConfig.$inject = ['Button'];
 
-        this.states = {
-            pending: new myModels.Button('pending', 'Pending', 'option-horizontal', 'red'),
-            na: new myModels.Button('na', 'N/A', '', '', 'grey'),
-            issued: new myModels.Button('issued', 'Issued', 'ok', 'green'),
-            expired: new myModels.Button('expired', 'Expired', 'time', 'blue'),
+	function fileConfig(Button) {
+
+        var states = {
+            pending: new Button('pending', 'Pending', 'option-horizontal', 'red'),
+            na: new Button('na', 'N/A', '', '', 'grey'),
+            issued: new Button('issued', 'Issued', 'ok', 'green'),
+            expired: new Button('expired', 'Expired', 'time', 'blue'),
             nextState: function(state) {
                 var res;
                 if (state === 'pending') {
@@ -23,6 +25,10 @@
                 return res;
             }
         };
+
+        this.getStates = function () {
+            return states;
+        }
 
         this.setStates = function(buttons) {
             this.states = buttons;

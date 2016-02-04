@@ -2,14 +2,16 @@
     'use strict';
 
     angular.module("demo")
-        .controller('ModalDemoController', ['mockFiles',ModalDemoController]);
+        .controller('ModalDemoController', ModalDemoController);
+
+    ModalDemoController.$inject = ['mockFiles'];
 
     function ModalDemoController(mockFiles) {
         var vm = this;
 
         vm.files = mockFiles.mock(5);
         vm.test = function() {
-        	alert('deleting');
+            alert('deleting');
         };
     }
 })();
